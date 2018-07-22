@@ -6,6 +6,7 @@ from struct import pack, unpack
 
 
 def compress(data: bytes) -> bytes:
+    import lz4.block
     buf = lz4.block.compress(data, mode="high_compression")[4:]
     with BytesIO() as bio:
         bio.write(pack('i', 100))
@@ -17,6 +18,7 @@ def compress(data: bytes) -> bytes:
 
 
 def decompress(data: bytes) -> bytes:
+    import lz4.block
     with BytesIO() as bio:
         bio.write(data[4:8])
         bio.write(data[16:])
